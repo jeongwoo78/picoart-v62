@@ -106,46 +106,46 @@ const MASTERS_WORK_MAP = {
   'Hollywood': 'basquiat-hollywood',
 };
 
-// 화가 이름으로 기본 작품 fallback (작품명 매칭 실패 시)
+// 화가 이름으로 화가 ID fallback (v62 - 화가별 키로 변경)
 const MASTERS_ARTIST_FALLBACK = {
-  'vangogh': 'vangogh-starrynight',
-  'gogh': 'vangogh-starrynight',
-  '고흐': 'vangogh-starrynight',
-  'van gogh': 'vangogh-starrynight',
-  'vincent': 'vangogh-starrynight',
-  '반 고흐': 'vangogh-starrynight',
+  'vangogh': 'vangogh',
+  'gogh': 'vangogh',
+  '고흐': 'vangogh',
+  'van gogh': 'vangogh',
+  'vincent': 'vangogh',
+  '반 고흐': 'vangogh',
   
-  'klimt': 'klimt-kiss',
-  '클림트': 'klimt-kiss',
-  'gustav': 'klimt-kiss',
-  'gustav klimt': 'klimt-kiss',
+  'klimt': 'klimt',
+  '클림트': 'klimt',
+  'gustav': 'klimt',
+  'gustav klimt': 'klimt',
   
-  'munch': 'munch-scream',
-  '뭉크': 'munch-scream',
-  'edvard': 'munch-scream',
-  'edvard munch': 'munch-scream',
+  'munch': 'munch',
+  '뭉크': 'munch',
+  'edvard': 'munch',
+  'edvard munch': 'munch',
   
-  'matisse': 'matisse-dance',
-  '마티스': 'matisse-dance',
-  'henri': 'matisse-dance',
-  'henri matisse': 'matisse-dance',
+  'matisse': 'matisse',
+  '마티스': 'matisse',
+  'henri': 'matisse',
+  'henri matisse': 'matisse',
   
-  'picasso': 'picasso-guernica',
-  '피카소': 'picasso-guernica',
-  'pablo': 'picasso-guernica',
-  'pablo picasso': 'picasso-guernica',
+  'picasso': 'picasso',
+  '피카소': 'picasso',
+  'pablo': 'picasso',
+  'pablo picasso': 'picasso',
   
-  'frida': 'frida-parrots',
-  '프리다': 'frida-parrots',
-  'kahlo': 'frida-parrots',
-  'frida kahlo': 'frida-parrots',
-  '프리다 칼로': 'frida-parrots',
+  'frida': 'frida',
+  '프리다': 'frida',
+  'kahlo': 'frida',
+  'frida kahlo': 'frida',
+  '프리다 칼로': 'frida',
   
-  'basquiat': 'basquiat-skull',
-  '바스키아': 'basquiat-skull',
-  'jean-michel': 'basquiat-skull',
-  'jean-michel basquiat': 'basquiat-skull',
-  '장 미셸 바스키아': 'basquiat-skull',
+  'basquiat': 'basquiat',
+  '바스키아': 'basquiat',
+  'jean-michel': 'basquiat',
+  'jean-michel basquiat': 'basquiat',
+  '장 미셸 바스키아': 'basquiat',
 };
 
 
@@ -568,11 +568,14 @@ export const testEducationMatcher = () => {
   console.log('========================================');
   
   const testCases = [
-    // 거장 테스트
-    { category: 'masters', artist: '반 고흐', work: 'The Starry Night', expected: 'vangogh-starrynight' },
-    { category: 'masters', artist: 'Edvard Munch', work: 'Madonna', expected: 'munch-madonna' },
-    { category: 'masters', artist: '마티스', work: 'The Dance', expected: 'matisse-dance' },
-    { category: 'masters', artist: 'Gustav Klimt', work: null, expected: 'klimt-kiss' },  // fallback
+    // 거장 테스트 (v62 - 화가별 키)
+    { category: 'masters', artist: '반 고흐', work: null, expected: 'vangogh' },
+    { category: 'masters', artist: 'Edvard Munch', work: null, expected: 'munch' },
+    { category: 'masters', artist: '마티스', work: null, expected: 'matisse' },
+    { category: 'masters', artist: 'Gustav Klimt', work: null, expected: 'klimt' },
+    { category: 'masters', artist: '피카소', work: null, expected: 'picasso' },
+    { category: 'masters', artist: 'Frida Kahlo', work: null, expected: 'frida' },
+    { category: 'masters', artist: '바스키아', work: null, expected: 'basquiat' },
     
     // 미술사조 테스트
     { category: 'movements', artist: 'Claude Monet', work: null, expected: 'monet' },

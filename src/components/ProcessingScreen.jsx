@@ -79,7 +79,10 @@ const ProcessingScreen = ({ photo, selectedStyle, onComplete }) => {
         await sleep(1000);
         onComplete(selectedStyle, result.resultUrl, result);
       } else {
+        // 실패 시에도 ResultScreen으로 이동하여 다시 시도 버튼 표시
         setStatusText(`오류: ${result.error}`);
+        await sleep(1500);
+        onComplete(selectedStyle, null, { ...result, success: false });
       }
     }
   };

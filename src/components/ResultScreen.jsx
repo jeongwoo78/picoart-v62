@@ -472,22 +472,38 @@ const ResultScreen = ({
   };
 
 
-  // ========== 거장 교육 콘텐츠 (v60 - 통합본 사용) ==========
+  // ========== 거장 교육 콘텐츠 (v62 - 화풍별 2차 교육) ==========
   const getMastersEducation = (overrideArtist = null) => {
     const artistSource = overrideArtist || aiSelectedArtist || selectedStyle.name || '';
     const artist = artistSource.replace(/\s*\([^)]*\)/g, '').trim();
     
     console.log('');
     console.log('========================================');
-    console.log('🎨 MASTERS EDUCATION (v60 통합본):');
+    console.log('🎨 MASTERS EDUCATION (v62 화풍별):');
     console.log('========================================');
     console.log('   - artistSource:', artistSource);
     console.log('   - normalized artist:', artist);
+    console.log('   - selectedStyle.id:', selectedStyle?.id);
     console.log('========================================');
     console.log('');
     
-    // ========== 2차 교육자료 (개별 작품) ==========
-    // aiSelectedWork가 있으면 해당 작품 키로 검색
+    // ========== 2차 교육자료 (화풍 설명) ==========
+    // selectedStyle.id에서 masterId 추출하여 검색 (v62 신규)
+    const styleId = selectedStyle?.id || '';
+    const masterId = styleId.replace('-master', ''); // 'vangogh-master' → 'vangogh'
+    
+    console.log('🎯 Trying 2nd education with masterId:', masterId);
+    
+    if (masterId && mastersEducation[masterId]) {
+      const education = mastersEducation[masterId];
+      console.log('✅ Found 2nd education (화풍 설명)!');
+      console.log('   - title:', education.title);
+      console.log('   - desc length:', education.desc?.length);
+      return education.desc;
+    }
+    
+    // ========== 2차 교육자료 (개별 작품) - 레거시 지원 ==========
+    // aiSelectedWork가 있으면 해당 작품 키로 검색 (기존 로직 유지)
     if (aiSelectedWork) {
       console.log('🎯 Trying 2nd education with selected_work:', aiSelectedWork);
       

@@ -2522,16 +2522,92 @@ async function selectArtistWithAI(imageBase64, selectedStyle, timeoutMs = 15000)
     
     if (categoryType === 'masters') {
       // ========================================
-      // v63: 거장 화풍 방식 (대표작 선택 방식 폐지)
-      // 미술사조와 동일하게 화풍 프롬프트 바로 적용
+      // v62.1: 거장별 분기 처리
+      // - 반 고흐/뭉크: 대표작 선택 방식 (AI가 사진에 맞는 작품 선택)
+      // - 나머지 5명: 화풍 프롬프트 방식
       // ========================================
       const masterId = selectedStyle.id.replace('-master', '');
       
-      // 거장 화풍 프롬프트 가져오기
-      const masterStylePrompt = getMasterArtistPrompt(masterId);
-      
-      // AI에게는 단순 사진 분석만 요청
-      promptText = `Analyze this photo for ${categoryName}'s painting style transformation.
+      // ========== 반 고흐/뭉크: 대표작 선택 방식 ==========
+      if (masterId === 'vangogh' || masterId === 'munch') {
+        console.log('');
+        console.log('🎨🎨🎨 [V62.1] 반 고흐/뭉크 대표작 선택 모드 🎨🎨🎨');
+        console.log('   Master:', masterId);
+        console.log('   AI가 사진 분석 후 최적 대표작 선택 예정');
+        console.log('');
+        
+        // 대표작 DB (반 고흐 4개, 뭉크 4개)
+        const masterWorksDB = {
+          'vangogh': `
+VINCENT VAN GOGH - SELECT ONE:
+1. "The Starry Night" (별이 빛나는 밤) → night scene, sky, landscape, evening, OR FEMALE portrait (PREFERRED for women!) | Style: SWIRLING SPIRAL brushstrokes, COBALT BLUE and YELLOW, cypress trees
+2. "Sunflowers" (해바라기) → flowers, still life, bouquet | Style: THICK IMPASTO, CHROME YELLOW dominates, expressive petal strokes
+3. "Self-Portrait" (자화상, 1889 Saint-Rémy) → MALE portrait ONLY | Style: TURQUOISE SWIRLING BACKGROUND, intense gaze, directional brushstrokes, CRITICAL: PRESERVE SUBJECT GENDER - apply Van Gogh BRUSHSTROKE TECHNIQUE only, do NOT add Van Gogh's beard or male features to subject
+4. "Café Terrace at Night" (밤의 카페 테라스) → outdoor evening, cafe, restaurant, street scene, city night, warm artificial lighting | Style: BRIGHT YELLOW gas lamp glow against DEEP COBALT BLUE night sky, strong perspective depth, cobblestone street, starry sky with dotted strokes, warm inviting atmosphere`,
+
+          'munch': `
+EDVARD MUNCH - SELECT ONE:
+1. "The Scream" (절규) → SINGLE person ONLY (NOT for couples/groups), emotional, anxious, distressed expression | Style: WAVY DISTORTED lines, BLOOD RED sky, agonized figure, existential terror
+2. "Madonna" (마돈나) → FEMALE portrait, sensual, mysterious, dreamy | Style: FLOWING DARK HAIR like halo, closed eyes, red lips, soft curves
+3. "Jealousy" (질투) → MALE portrait, psychological, intense | Style: PALE GREEN face, intense stare, swirling background, emotional tension
+4. "Anxiety" (불안) → GROUP of people (2+), frontal pose, crowd, multiple figures walking | Style: BLOOD ORANGE-RED sky, PALE GHOSTLY FACES, wavy horizontal lines, figures walking toward viewer on bridge, collective existential dread`
+        };
+
+        const masterWorks = masterWorksDB[masterId] || '';
+        
+        promptText = `You are selecting the BEST masterwork from ${categoryName}'s collection for this photo.
+
+AVAILABLE MASTERWORKS (YOU MUST SELECT FROM THIS LIST ONLY):
+${masterWorks}
+
+⚠️ CRITICAL: You MUST select ONLY from the works listed above. Do NOT select any other works not in this list. If you select a work not listed above, the system will fail.
+
+CRITICAL MATCHING RULES:
+- If MALE subject → AVOID works with "Woman/여인/Madonna" in title, choose neutral or male-themed works
+- If FEMALE subject → CAN select any work, female-themed preferred
+- If SINGLE person (1) → NEVER select "Anxiety" (requires group), NEVER select "The Kiss" (requires couple)
+- If GROUP (2+ people) → prefer "Anxiety" for Munch
+
+STYLE APPLICATION RULE:
+- Apply the artwork's TECHNIQUE, COLOR, MOOD to the subject.
+- Do NOT literally copy figures from the artwork onto the subject.
+
+INSTRUCTIONS:
+1. Analyze the photo THOROUGHLY:
+   - Subject type (person/landscape/animal/object)
+   - If PERSON: gender (male/female), age, physical features (jaw shape, hair, build)
+   - PERSON COUNT: How many people are in the photo? (1, 2, 3+)
+   - BACKGROUND: What's in the background? (simple/complex/outdoor/indoor)
+   - Mood, composition
+2. Apply CRITICAL MATCHING RULES above - eliminate unsuitable works first
+3. From remaining works, select the MOST SUITABLE one
+4. Generate a FLUX prompt that STARTS with detailed subject description
+5. IMPORTANT: Preserve the original subject - if it's a baby, keep it as a baby; if elderly, keep elderly
+6. CRITICAL: If only 1 person in photo, add "DO NOT add extra people in background"
+
+Return ONLY valid JSON (no markdown):
+{
+  "analysis": "brief photo analysis",
+  "subject_type": "person" or "landscape" or "animal" or "object",
+  "gender": "male" or "female" or "both" or null,
+  "age_range": "baby/child/teen/young_adult/adult/middle_aged/elderly" or null,
+  "ethnicity": "asian" or "caucasian" or "african" or "hispanic" or "middle_eastern" or "mixed" or null,
+  "physical_description": "for MALE: strong jaw, angular face, short hair, broad shoulders etc. For FEMALE: soft features, delicate face etc. ALWAYS include skin tone and ethnic features." or null,
+  "person_count": 1 or 2 or 3 (number of people in photo),
+  "background_type": "simple" or "complex" or "outdoor" or "indoor" or "studio",
+  "selected_artist": "${categoryName}",
+  "selected_work": "exact title of the masterwork you selected",
+  "reason": "why this masterwork matches this photo (mention gender/count compatibility)",
+  "prompt": "Start with 'MALE/FEMALE SUBJECT with [physical features]' if person, then 'painting by ${categoryName} in the style of [selected work title], [that work's distinctive techniques]'. If person_count=1, END with 'DO NOT add extra people, NO hallucinated figures in background'"
+}`;
+        
+      } else {
+        // ========== 나머지 5명: 화풍 프롬프트 방식 ==========
+        // 거장 화풍 프롬프트 가져오기
+        const masterStylePrompt = getMasterArtistPrompt(masterId);
+        
+        // AI에게는 단순 사진 분석만 요청
+        promptText = `Analyze this photo for ${categoryName}'s painting style transformation.
 
 IMPORTANT: The user has ALREADY SELECTED ${categoryName} as their preferred master artist.
 Your job is ONLY to analyze the photo - NOT to select a different artist or artwork.
@@ -2569,6 +2645,7 @@ Return ONLY valid JSON (no markdown):
   "reason": "applying ${categoryName}'s distinctive painting style",
   "prompt": "Start with subject description (gender, age, features), then '${masterStylePrompt.substring(0, 200)}...'. If person_count=1, END with 'DO NOT add extra people'"
 }`;
+      }
       
     } else if (categoryType === 'oriental') {
       // 동양화: 한국/중국/일본 스타일 선택 (기존 로직 유지)
@@ -3349,6 +3426,18 @@ export default async function handler(req, res) {
         };
         console.log('✅✅✅ [V41-TEST-SUCCESS] AI selected:', selectedArtist);
         console.log('✅✅✅ [V48] Selected work:', selectedWork);
+        
+        // 반 고흐/뭉크 대표작 선택 결과 강조 로그
+        const masterId = selectedStyle?.id?.replace('-master', '') || '';
+        if (masterId === 'vangogh' || masterId === 'munch') {
+          console.log('');
+          console.log('🖼️🖼️🖼️ [V62.1] 대표작 선택 결과 🖼️🖼️🖼️');
+          console.log('   화가:', selectedArtist);
+          console.log('   선택된 작품:', selectedWork);
+          console.log('   선택 이유:', aiResult.reason);
+          console.log('🖼️🖼️🖼️🖼️🖼️🖼️🖼️🖼️🖼️🖼️🖼️🖼️🖼️🖼️🖼️');
+          console.log('');
+        }
         
         // ========================================
         // 🎯 대전제: AI 분석 후 가중치 기반 화가 재선택
