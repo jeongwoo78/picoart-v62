@@ -53,9 +53,9 @@ const StyleSelection = ({ onSelect }) => {
     { id: 'basquiat-master', name: '장 미셸 바스키아', nameEn: 'Jean-Michel Basquiat', category: 'masters', icon: '👑', description: '1960-1988 | 네오표현주의' },
     
     // 동양화
-    { id: 'korean', name: '한국 전통 회화', nameEn: 'Korean Art', category: 'oriental', icon: '🎎', description: '여백의 미와 절제미' },
-    { id: 'chinese', name: '중국 전통 회화', nameEn: 'Chinese Art', category: 'oriental', icon: '🐉', description: '기운생동의 수묵화' },
-    { id: 'japanese', name: '일본 전통 회화', nameEn: 'Japanese Art', category: 'oriental', icon: '🗾', description: '섬세한 관찰과 대담한 생략' }
+    { id: 'korean', name: '한국 전통회화', nameEn: 'Korean Art', category: 'oriental', icon: '🎎', description: '여백의 미와 절제미' },
+    { id: 'chinese', name: '중국 전통회화', nameEn: 'Chinese Art', category: 'oriental', icon: '🐉', description: '기운생동의 수묵화' },
+    { id: 'japanese', name: '일본 전통회화', nameEn: 'Japanese Art', category: 'oriental', icon: '🗾', description: '섬세한 관찰과 대담한 생략' }
   ];
 
   // 대 카테고리 정의 (v51: 11개 사조)

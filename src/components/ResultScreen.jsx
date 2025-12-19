@@ -954,16 +954,17 @@ const ResultScreen = ({
       return artistName;
     }
     
-    // ========== 동양화: <국가 전통회화> 스타일명 ==========
+    // ========== 동양화: 국가 전통회화_스타일명 ==========
     if (category === 'oriental') {
       const orientalMap = {
         // 한국
         'korean minhwa': { country: '한국 전통회화', style: '민화' },
-        'korean pungsokdo': { country: '한국 전통회화', style: '풍속화' },
+        'korean pungsokdo': { country: '한국 전통회화', style: '풍속도' },
         'korean jingyeong': { country: '한국 전통회화', style: '진경산수화' },
         '한국 전통화': { country: '한국 전통회화', style: '전통화' },
         '민화': { country: '한국 전통회화', style: '민화' },
-        '풍속화': { country: '한국 전통회화', style: '풍속화' },
+        '풍속화': { country: '한국 전통회화', style: '풍속도' },
+        '풍속도': { country: '한국 전통회화', style: '풍속도' },
         '진경산수': { country: '한국 전통회화', style: '진경산수화' },
         // 중국
         'chinese gongbi': { country: '중국 전통회화', style: '공필화' },
@@ -978,13 +979,13 @@ const ResultScreen = ({
       
       const info = orientalMap[normalized] || orientalMap[artistName];
       if (info) {
-        return `<${info.country}> ${info.style}`;
+        return `${info.country}_${info.style}`;
       }
       
       // 부분 매칭
       for (const [key, value] of Object.entries(orientalMap)) {
         if (normalized.includes(key) || key.includes(normalized)) {
-          return `<${value.country}> ${value.style}`;
+          return `${value.country}_${value.style}`;
         }
       }
       
@@ -1192,23 +1193,24 @@ const ResultScreen = ({
     // 동양화 스타일 통일 매핑: 한글명(영문명)
     const orientalMap = {
       // 한국
-      '한국 전통화': '한국 민화(Korean Minhwa)',
-      'korean-genre': '한국 풍속화(Korean Genre)',
-      'korean-minhwa': '한국 민화(Korean Minhwa)',
-      'korean-jingyeong': '한국 진경산수(Korean Jingyeong)',
+      '한국 전통화': '민화(Minhwa)',
+      'korean-genre': '풍속도(Pungsokdo)',
+      'korean-minhwa': '민화(Minhwa)',
+      'korean-jingyeong': '진경산수화(Jingyeong)',
       
       // 중국
-      'chinese gongbi': '중국 공필화(Chinese Gongbi)',
-      'chinese-gongbi': '중국 공필화(Chinese Gongbi)',
-      'gongbi': '중국 공필화(Chinese Gongbi)',
-      'chinese-ink': '중국 수묵화(Chinese Ink)',
-      'chinese-huaniao': '중국 화조화(Chinese Huaniao)',
+      'chinese gongbi': '공필화(Gongbi)',
+      'chinese-gongbi': '공필화(Gongbi)',
+      'gongbi': '공필화(Gongbi)',
+      'chinese-ink': '수묵화(Ink Wash)',
+      'chinese-ink-wash': '수묵화(Ink Wash)',
+      'chinese-huaniao': '화조화(Huaniao)',
       
       // 일본
-      '일본 우키요에': '일본 우키요에(Japanese Ukiyo-e)',
-      'japanese-ukiyoe': '일본 우키요에(Japanese Ukiyo-e)',
-      'ukiyoe': '일본 우키요에(Japanese Ukiyo-e)',
-      'ukiyo-e': '일본 우키요에(Japanese Ukiyo-e)'
+      '일본 우키요에': '우키요에(Ukiyo-e)',
+      'japanese-ukiyoe': '우키요에(Ukiyo-e)',
+      'ukiyoe': '우키요에(Ukiyo-e)',
+      'ukiyo-e': '우키요에(Ukiyo-e)'
     };
     
     // 정확한 매칭
@@ -1219,15 +1221,26 @@ const ResultScreen = ({
       return orientalMap[normalized];
     }
     
-    // 부분 매칭
-    if (normalized.includes('korean') || normalized.includes('한국')) {
-      return '한국 민화(Korean Minhwa)';
+    // 부분 매칭 - 한국
+    if (normalized.includes('minhwa') || normalized.includes('민화')) {
+      return '민화(Minhwa)';
     }
-    if (normalized.includes('chinese') || normalized.includes('gongbi') || normalized.includes('중국')) {
-      return '중국 공필화(Chinese Gongbi)';
+    if (normalized.includes('pungsok') || normalized.includes('genre') || normalized.includes('풍속')) {
+      return '풍속도(Pungsokdo)';
     }
-    if (normalized.includes('japanese') || normalized.includes('ukiyo') || normalized.includes('일본')) {
-      return '일본 우키요에(Japanese Ukiyo-e)';
+    if (normalized.includes('jingyeong') || normalized.includes('진경')) {
+      return '진경산수화(Jingyeong)';
+    }
+    // 부분 매칭 - 중국
+    if (normalized.includes('gongbi') || normalized.includes('공필')) {
+      return '공필화(Gongbi)';
+    }
+    if (normalized.includes('ink') || normalized.includes('수묵')) {
+      return '수묵화(Ink Wash)';
+    }
+    // 부분 매칭 - 일본
+    if (normalized.includes('ukiyo') || normalized.includes('우키요에')) {
+      return '우키요에(Ukiyo-e)';
     }
     
     // 매핑에 없으면 원본 반환
@@ -1399,11 +1412,11 @@ const ResultScreen = ({
       'folk-painting': '민화(Folk Painting)',
       'korean-folk': '민화(Korean Folk)',
       
-      'korean-genre': '풍속화(Korean Genre Painting)',
-      'korean_genre': '풍속화(Korean Genre Painting)',
-      'genre-painting': '풍속화(Genre Painting)',
-      'korean-genre-painting': '풍속화(Korean Genre Painting)',
-      'pungsokdo': '풍속화(Pungsokdo)',
+      'korean-genre': '풍속도(Korean Genre Painting)',
+      'korean_genre': '풍속도(Korean Genre Painting)',
+      'genre-painting': '풍속도(Genre Painting)',
+      'korean-genre-painting': '풍속도(Korean Genre Painting)',
+      'pungsokdo': '풍속도(Pungsokdo)',
       
       // 동양화 - 중국
       'chinese-ink': '수묵산수화(Chinese Ink Landscape)',
@@ -1544,7 +1557,7 @@ const ResultScreen = ({
     console.log('');
     
     
-    // ========== 한국 전통 회화 (3가지) ==========
+    // ========== 한국 전통회화 (3가지) ==========
     if (styleId === 'korean') {
       const genre = artistSource?.toLowerCase() || '';
       console.log('🇰🇷 KOREAN ART DETECTION:');
@@ -1580,7 +1593,7 @@ const ResultScreen = ({
       
       // 기본값 (매칭 실패시)
       else {
-        console.log('⚠️ DEFAULT: Korean Traditional Painting (한국 전통 회화)');
+        console.log('⚠️ DEFAULT: Korean Traditional Painting (한국 전통회화)');
         console.log('========================================');
         console.log('');
         return orientalEducation.korean_default?.description;
@@ -1588,7 +1601,7 @@ const ResultScreen = ({
     }
     
     
-    // ========== 중국 전통 회화 (3가지) ==========
+    // ========== 중국 전통회화 (3가지) ==========
     if (styleId === 'chinese') {
       const artist = aiSelectedArtist?.toLowerCase() || '';
       console.log('🇨🇳 CHINESE ART DETECTION:');
@@ -1624,7 +1637,7 @@ const ResultScreen = ({
       
       // 기본값 (매칭 실패시)
       else {
-        console.log('⚠️ DEFAULT: Chinese Traditional Painting (중국 전통 회화)');
+        console.log('⚠️ DEFAULT: Chinese Traditional Painting (중국 전통회화)');
         console.log('========================================');
         console.log('');
         return orientalEducation.chinese_default?.description;
@@ -1632,7 +1645,7 @@ const ResultScreen = ({
     }
     
     
-    // ========== 일본 전통 회화 (1가지) ==========
+    // ========== 일본 전통회화 (1가지) ==========
     if (styleId === 'japanese') {
       console.log('🇯🇵 JAPANESE ART DETECTION:');
       console.log('✅ MATCH: Japanese Ukiyo-e (浮世繪)');

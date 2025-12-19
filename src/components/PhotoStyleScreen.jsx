@@ -68,9 +68,9 @@ const PhotoStyleScreen = ({ mainCategory, onBack, onSelect }) => {
         category: 'oriental'
       },
       styles: [
-        { id: 'korean', name: '한국 전통 회화', icon: '🎎', period: '수묵화·민화·풍속화' },
-        { id: 'chinese', name: '중국 전통 회화', icon: '🐉', period: '수묵산수·공필화' },
-        { id: 'japanese', name: '일본 전통 회화', icon: '🗾', period: '우키요에' }
+        { id: 'korean', name: '한국 전통회화', icon: '🎎', period: '수묵화·민화·풍속도' },
+        { id: 'chinese', name: '중국 전통회화', icon: '🐉', period: '수묵산수·공필화' },
+        { id: 'japanese', name: '일본 전통회화', icon: '🗾', period: '우키요에' }
       ]
     }
   };

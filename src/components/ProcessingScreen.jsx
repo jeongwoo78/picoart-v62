@@ -418,12 +418,19 @@ const ProcessingScreen = ({ photo, selectedStyle, onComplete }) => {
     if (!styleName) return '';
     
     const orientalMap = {
-      '한국 전통화': '한국 민화(Korean Minhwa)',
-      'korean-genre': '한국 풍속화(Korean Genre)',
-      'Chinese Gongbi': '중국 공필화(Chinese Gongbi)',
-      'chinese-gongbi': '중국 공필화(Chinese Gongbi)',
-      '일본 우키요에': '일본 우키요에(Japanese Ukiyo-e)',
-      'japanese-ukiyoe': '일본 우키요에(Japanese Ukiyo-e)'
+      // 한국
+      '한국 전통화': '민화(Minhwa)',
+      'korean-minhwa': '민화(Minhwa)',
+      'korean-genre': '풍속도(Pungsokdo)',
+      'korean-jingyeong': '진경산수화(Jingyeong)',
+      // 중국
+      'Chinese Gongbi': '공필화(Gongbi)',
+      'chinese-gongbi': '공필화(Gongbi)',
+      'chinese-ink': '수묵화(Ink Wash)',
+      'chinese-ink-wash': '수묵화(Ink Wash)',
+      // 일본
+      '일본 우키요에': '우키요에(Ukiyo-e)',
+      'japanese-ukiyoe': '우키요에(Ukiyo-e)'
     };
     
     const normalized = styleName?.toLowerCase?.().trim() || '';
@@ -431,15 +438,26 @@ const ProcessingScreen = ({ photo, selectedStyle, onComplete }) => {
     if (orientalMap[styleName]) return orientalMap[styleName];
     if (orientalMap[normalized]) return orientalMap[normalized];
     
-    // 부분 매칭
-    if (normalized.includes('korean') || normalized.includes('한국')) {
-      return '한국 민화(Korean Minhwa)';
+    // 부분 매칭 - 한국
+    if (normalized.includes('minhwa') || normalized.includes('민화')) {
+      return '민화(Minhwa)';
     }
-    if (normalized.includes('chinese') || normalized.includes('gongbi')) {
-      return '중국 공필화(Chinese Gongbi)';
+    if (normalized.includes('pungsok') || normalized.includes('genre') || normalized.includes('풍속')) {
+      return '풍속도(Pungsokdo)';
     }
-    if (normalized.includes('japanese') || normalized.includes('ukiyo')) {
-      return '일본 우키요에(Japanese Ukiyo-e)';
+    if (normalized.includes('jingyeong') || normalized.includes('진경')) {
+      return '진경산수화(Jingyeong)';
+    }
+    // 부분 매칭 - 중국
+    if (normalized.includes('gongbi') || normalized.includes('공필')) {
+      return '공필화(Gongbi)';
+    }
+    if (normalized.includes('ink wash') || normalized.includes('수묵')) {
+      return '수묵화(Ink Wash)';
+    }
+    // 부분 매칭 - 일본
+    if (normalized.includes('ukiyo') || normalized.includes('우키요에')) {
+      return '우키요에(Ukiyo-e)';
     }
     
     return styleName;
