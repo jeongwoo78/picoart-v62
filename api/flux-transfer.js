@@ -2064,6 +2064,51 @@ function getModernismArtistPrompt(artistName) {
   return prompts['PICASSO'];
 }
 
+// ========================================
+// 🎯 v63: 거장 화풍 프롬프트 함수 (대표작 방식 폐지)
+// 미술사조와 동일하게 화풍 프롬프트 바로 적용
+// ========================================
+function getMasterArtistPrompt(masterId) {
+  const genderRule = 'ABSOLUTE GENDER AND ETHNICITY REQUIREMENT: If photo shows MALE - MUST have MASCULINE face with STRONG JAW, male bone structure, NO feminine features, DO NOT feminize, DO NOT soften, DO NOT make delicate, KEEP AS MAN. If photo shows FEMALE - MUST have FEMININE face with SOFT features, female bone structure, NO masculine features, DO NOT masculinize, DO NOT make rough, KEEP AS WOMAN. PRESERVE ORIGINAL ETHNICITY AND SKIN COLOR EXACTLY - DO NOT change race, DO NOT lighten or darken skin, Asian must stay Asian, Caucasian must stay Caucasian, African must stay African. ';
+  const paintTexture = ' MUST look like HAND-PAINTED oil painting with VISIBLE THICK BRUSHSTROKES (20mm or thicker on subject), NOT photograph, NOT digital, NOT photorealistic, NOT smooth, NOT AI-generated photo.';
+  
+  const prompts = {
+    // 반 고흐 - 후기인상주의 화풍
+    'vangogh': genderRule + 'painting in Vincent van Gogh style: EXTREMELY THICK IMPASTO brushstrokes with HEAVY 3D PAINT TEXTURE like squeezed directly from tube, VISIBLE RIDGES AND GROOVES of thick oil paint, SWIRLING TURBULENT brushwork in EVERY area including face and background, CHUNKY BOLD brush marks NOT smooth NOT blended, intense saturated colors (cobalt blue cadmium yellow chrome orange), ENERGETIC EXPRESSIVE strokes throughout, canvas weave visible through paint, Van Gogh masterpiece quality' + paintTexture,
+    
+    // 클림트 - 아르누보/비엔나 분리파 화풍 (전용)
+    'klimt': genderRule + 'painting by Gustav Klimt: ELABORATE GOLDEN PATTERNS with REAL GOLD LEAF texture throughout, Byzantine mosaic decorative elements, flat ornamental backgrounds covered with geometric spirals circles and rectangular motifs in shimmering gold leaf, sensuous organic forms emerging from abstract decorative fields, Art Nouveau flowing curves combined with geometric precision, rich textures of gold silver and precious jewel-like colors (deep ruby red, sapphire blue, emerald green), The Kiss style intimate embrace aesthetic, Judith style powerful female portraiture, erotic intimate mood within sacred ornamental splendor, Vienna Secession masterpiece quality' + paintTexture,
+    
+    // 뭉크 - 표현주의 화풍
+    'munch': genderRule + 'painting by Edvard Munch: INTENSE PSYCHOLOGICAL emotional depth, The Scream style existential anxiety atmosphere, WAVY DISTORTED flowing lines in background, haunting symbolic colors (blood red sky, sickly yellows, deep blues), raw emotional vulnerability, swirling anxious energy, VISIBLE BRUSHWORK with paint texture, Munch Expressionist masterpiece quality' + paintTexture,
+    
+    // 마티스 - 야수파 화풍
+    'matisse': genderRule + 'painting by Henri Matisse Fauvist period: PURE BOLD UNMIXED COLORS in flat decorative areas, The Dance style simplified joyful forms, complete liberation of color from reality, saturated intense primary colors (red blue green), APPLY UNREALISTIC COLORS TO FACE AND SKIN (green purple red on face OK), simplified facial features, rhythmic flowing harmonious lines, ROUGH FAUVIST BRUSHSTROKES clearly visible throughout including on skin, life-affirming energetic atmosphere, Matisse Fauvist masterpiece quality' + paintTexture,
+    
+    // 피카소 - 입체주의 화풍
+    'picasso': genderRule + 'Cubist painting by Pablo Picasso: SINGLE UNIFIED IMAGE not divided into panels, CRITICAL: FACE must be GEOMETRICALLY FRAGMENTED into angular planes NOT realistic face, NOSE from SIDE PROFILE while BOTH EYES visible from FRONT VIEW simultaneously, JAW and CHIN broken into geometric segments, ENTIRE FACE deconstructed into flat angular shapes NOT just background, Les Demoiselles d\'Avignon African mask influence, earth tone palette (ochre sienna brown olive grey), analytical cubist dissection, ROUGH VISIBLE BRUSHSTROKES with paint texture, canvas texture visible, NOT smooth NOT digital, Picasso Cubist masterpiece quality' + paintTexture,
+    
+    // 프리다 칼로 - 멕시코 초현실주의 화풍 (전용)
+    'frida': genderRule + 'painting by Frida Kahlo: INTENSE DIRECT GAZE portrait with unflinching emotional honesty, vibrant MEXICAN FOLK ART colors (bright red, yellow, green, blue, pink), lush TROPICAL JUNGLE FOLIAGE background with exotic plants and flowers, symbolic personal imagery (THORNS, RIBBONS, HEARTS, VEINS), distinctive facial features with PROMINENT CONNECTED EYEBROWS, traditional Mexican TEHUANA DRESS with floral headpiece and elaborate jewelry, symbolic animals surrounding figure (monkeys, hummingbirds, black cats, deer, parrots), autobiographical narrative elements, raw vulnerability combined with fierce strength, exposed anatomical elements if emotional, surreal juxtaposition of pain and beauty, VISIBLE BRUSHWORK with oil paint texture, Frida Kahlo Mexican Surrealist masterpiece quality' + paintTexture,
+    
+    // 바스키아 - 네오표현주의 화풍 (전용)
+    'basquiat': genderRule + 'Neo-Expressionist painting by Jean-Michel Basquiat: RAW PRIMITIVE STREET ART aesthetic with CRUDE SCRATCHY LINES, CROWN SYMBOL (three-pointed corona) floating near head, SKULL IMAGERY with exposed teeth and bone structure, GRAFFITI TEXT annotations and scribbled words scattered throughout (words like SAMO, KINGS, TEETH, BONES), BLACK BOLD OUTLINES around figure, PRIMARY COLORS (red yellow blue) on aggressive marks, STICK-FIGURE ANATOMY with exaggerated proportions, anatomical diagrams and skeletal references, chaotic layered composition, African tribal mask influences, SPRAY PAINT and MARKER texture, rebellious raw energy, urban decay aesthetic, NOT refined NOT polished, Basquiat Neo-Expressionist masterpiece quality'
+  };
+  
+  const normalized = masterId.toLowerCase().trim();
+  
+  if (normalized.includes('vangogh') || normalized.includes('gogh')) return prompts['vangogh'];
+  if (normalized.includes('klimt')) return prompts['klimt'];
+  if (normalized.includes('munch')) return prompts['munch'];
+  if (normalized.includes('matisse')) return prompts['matisse'];
+  if (normalized.includes('picasso')) return prompts['picasso'];
+  if (normalized.includes('frida')) return prompts['frida'];
+  if (normalized.includes('basquiat')) return prompts['basquiat'];
+  
+  // 기본값 (반 고흐)
+  return prompts['vangogh'];
+}
+
 
 // ========================================
 // 🎯 사조별 화가 개별 프롬프트 함수들
@@ -2476,91 +2521,38 @@ async function selectArtistWithAI(imageBase64, selectedStyle, timeoutMs = 15000)
     let promptText;
     
     if (categoryType === 'masters') {
-      // 거장: 대표작 5개 중 사진에 가장 맞는 것 선택
+      // ========================================
+      // v63: 거장 화풍 방식 (대표작 선택 방식 폐지)
+      // 미술사조와 동일하게 화풍 프롬프트 바로 적용
+      // ========================================
       const masterId = selectedStyle.id.replace('-master', '');
       
-      // 거장별 대표작 목록
-      const masterWorksDB = {
-        'vangogh': `
-VINCENT VAN GOGH - SELECT ONE:
-1. "The Starry Night" (별이 빛나는 밤) → night scene, sky, landscape, evening, OR FEMALE portrait (PREFERRED for women!) | Style: SWIRLING SPIRAL brushstrokes, COBALT BLUE and YELLOW, cypress trees
-2. "Sunflowers" (해바라기) → flowers, still life, bouquet | Style: THICK IMPASTO, CHROME YELLOW dominates, expressive petal strokes
-3. "Self-Portrait" (자화상, 1889 Saint-Rémy) → MALE portrait ONLY | Style: TURQUOISE SWIRLING BACKGROUND, intense gaze, directional brushstrokes, CRITICAL: PRESERVE SUBJECT GENDER - apply Van Gogh BRUSHSTROKE TECHNIQUE only, do NOT add Van Gogh's beard or male features to subject`,
-
-        'klimt': `
-GUSTAV KLIMT - SELECT ONE:
-1. "The Kiss" (키스) → COUPLE ONLY (2 people), romantic, embracing | Style: GOLD LEAF patterns, geometric robes, floral meadow, Byzantine mosaic
-2. "The Tree of Life" (생명의 나무) → ANY subject, tree, nature, landscape, SINGLE MALE | Style: SPIRAL BRANCHES, gold and bronze, decorative swirls
-3. "Judith I" (유디트) → FEMALE portrait, powerful woman | Style: GOLD CHOKER, bare shoulders, fierce expression`,
-
-        'munch': `
-EDVARD MUNCH - SELECT ONE:
-1. "The Scream" (절규) → SINGLE person ONLY (NOT for couples/groups), emotional, anxious | Style: WAVY DISTORTED lines, BLOOD RED sky, agonized figure, existential terror
-2. "Madonna" (마돈나) → FEMALE portrait, sensual, mysterious | Style: FLOWING DARK HAIR like halo, closed eyes, red lips
-3. "Jealousy" (질투) → MALE portrait, psychological | Style: PALE GREEN face, intense stare, swirling background, emotional tension`,
-
-        'matisse': `
-HENRI MATISSE - SELECT ONE:
-1. "The Dance" (춤) → group, people in motion, dancing | Style: FLAT BOLD colors (red figures, blue sky, green ground), rhythmic circular
-2. "The Red Room" (붉은 방) → interior, room, dining | Style: DOMINANT RED with blue patterns, flat decorative surface
-3. "Woman with a Hat" (모자를 쓴 여인) → FEMALE portrait, colorful | Style: WILD FAUVE colors on face (green, purple, red), bold brushwork`,
-
-        'picasso': `
-PABLO PICASSO - SELECT ONE:
-1. "Les Demoiselles d'Avignon" (아비뇽의 처녀들) → ANY gender portrait or group, PREFERRED for FEMALE subjects | Style: ANGULAR FRAGMENTED faces, African mask influence, geometric planes
-2. "Guernica" (게르니카) → dramatic scene, chaos, ANY subject | Style: BLACK WHITE GREY only, anguished figures, fragmented bodies`,
-
-        'frida': `
-FRIDA KAHLO - SELECT ONE:
-1. "Me and My Parrots" (나와 앵무새들) → person with birds/pets | Style: COLORFUL PARROTS on shoulders, lush green foliage, direct gaze, vibrant colors
-2. "The Broken Column" (부러진 기둥) → single figure, frontal pose | Style: Cracked torso with IONIC COLUMN spine, nails piercing skin, tears streaming
-3. "Self-Portrait with Thorn Necklace" (가시 목걸이 자화상) → portrait with nature/insects | Style: THORNS around neck with hummingbird, black cat, jungle foliage
-4. "Self-Portrait with Monkeys" (원숭이와 자화상) → person with pets/animals, warm mood | Style: MONKEYS EMBRACING from behind, lush green leaves, intimate warm atmosphere`,
-
-        'warhol': `
-ANDY WARHOL - SELECT ONE:
-1. "Marilyn Monroe" (마릴린 먼로) → FEMALE portrait, glamorous | Style: 2x2 FOUR-PANEL GRID, DIFFERENT BOLD COLORS each panel, silkscreen
-2. "Elvis" (엘비스) → MALE portrait | Style: SILVER BACKGROUND, repeated image, silkscreen ink variations, cowboy stance`,
-
-        'basquiat': `
-JEAN-MICHEL BASQUIAT - SELECT ONE:
-1. "Untitled (Skull)" (무제 - 해골) → ANY subject | Style: skull with exposed teeth on black background, raw scratchy lines, scribbled text, crown motif, RED YELLOW BLACK colors
-2. "Warrior" (전사) → MALE figure, strong pose | Style: standing figure with spear/weapon, tribal mask face, BLACK OUTLINED body, hieroglyphic symbols, raw brushstrokes
-3. "Boy and Dog in a Johnnypump" (소년과 개) → ANY subject, playful | Style: childlike figures, fire hydrant water spray, bright colors, crude anatomy, text annotations
-4. "Hollywood Africans" (헐리우드 아프리칸) → portraits, multiple subjects | Style: three figures, movie star references, crown symbols, graffiti text, BOLD PRIMARY COLORS`
-      };
-
-      const masterWorks = masterWorksDB[masterId] || '';
+      // 거장 화풍 프롬프트 가져오기
+      const masterStylePrompt = getMasterArtistPrompt(masterId);
       
-      promptText = `You are selecting the BEST masterwork from ${categoryName}'s collection for this photo.
+      // AI에게는 단순 사진 분석만 요청
+      promptText = `Analyze this photo for ${categoryName}'s painting style transformation.
 
-AVAILABLE MASTERWORKS (YOU MUST SELECT FROM THIS LIST ONLY):
-${masterWorks}
+IMPORTANT: The user has ALREADY SELECTED ${categoryName} as their preferred master artist.
+Your job is ONLY to analyze the photo - NOT to select a different artist or artwork.
 
-⚠️ CRITICAL: You MUST select ONLY from the works listed above. Do NOT select any other works not in this list. If you select a work not listed above, the system will fail.
-
-CRITICAL MATCHING RULES:
-- If MALE subject → AVOID works with "Woman/여인/Madonna/Judith" in title, choose neutral or male-themed works
-- If FEMALE subject → CAN select any work, female-themed preferred
-- If SINGLE person (1) → NEVER select "The Kiss" (requires couple)
-- If COUPLE (2 people) → prefer "The Kiss"
-
-STYLE APPLICATION RULE:
-- Apply the artwork's TECHNIQUE, COLOR, MOOD to the subject.
-- Do NOT literally copy figures from the artwork onto the subject.
+STYLE TO APPLY (FIXED - DO NOT CHANGE):
+${masterStylePrompt}
 
 INSTRUCTIONS:
-1. Analyze the photo THOROUGHLY:
+1. Analyze the photo:
    - Subject type (person/landscape/animal/object)
-   - If PERSON: gender (male/female), age, physical features (jaw shape, hair, build)
-   - PERSON COUNT: How many people are in the photo? (1, 2, 3+)
-   - BACKGROUND: What's in the background? (simple/complex/outdoor/indoor)
-   - Mood, composition
-2. Apply CRITICAL MATCHING RULES above - eliminate unsuitable works first
-3. From remaining works, select the MOST SUITABLE one
-4. Generate a FLUX prompt that STARTS with detailed subject description
-5. IMPORTANT: Preserve the original subject - if it's a baby, keep it as a baby; if elderly, keep elderly
-6. CRITICAL: If only 1 person in photo, add "DO NOT add extra people in background"
+   - If PERSON: gender (male/female), age, physical features
+   - Number of people in photo
+   - Background type
+   - Mood and composition
+2. Generate a FLUX prompt that applies ${categoryName}'s style to THIS specific photo
+3. CRITICAL: Preserve the original subject's identity, gender, age, and ethnicity
+
+GENDER PRESERVATION RULE:
+- If MALE subject → MUST preserve MASCULINE features (strong jaw, angular face, male body)
+- If FEMALE subject → MUST preserve FEMININE features (soft features, female body)
+- NEVER change the subject's gender
 
 Return ONLY valid JSON (no markdown):
 {
@@ -2570,12 +2562,12 @@ Return ONLY valid JSON (no markdown):
   "age_range": "baby/child/teen/young_adult/adult/middle_aged/elderly" or null,
   "ethnicity": "asian" or "caucasian" or "african" or "hispanic" or "middle_eastern" or "mixed" or null,
   "physical_description": "for MALE: strong jaw, angular face, short hair, broad shoulders etc. For FEMALE: soft features, delicate face etc. ALWAYS include skin tone and ethnic features." or null,
-  "person_count": 1 or 2 or 3 (number of people in photo),
+  "person_count": 1 or 2 or 3,
   "background_type": "simple" or "complex" or "outdoor" or "indoor" or "studio",
   "selected_artist": "${categoryName}",
-  "selected_work": "exact title of the masterwork you selected",
-  "reason": "why this masterwork matches this photo (mention gender/count compatibility)",
-  "prompt": "Start with 'MALE/FEMALE SUBJECT with [physical features]' if person, then 'painting by ${categoryName} in the style of [selected work title], [that work's distinctive techniques]'. If person_count=1, END with 'DO NOT add extra people, NO hallucinated figures in background'"
+  "selected_work": null,
+  "reason": "applying ${categoryName}'s distinctive painting style",
+  "prompt": "Start with subject description (gender, age, features), then '${masterStylePrompt.substring(0, 200)}...'. If person_count=1, END with 'DO NOT add extra people'"
 }`;
       
     } else if (categoryType === 'oriental') {
