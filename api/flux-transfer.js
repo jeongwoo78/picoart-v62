@@ -459,12 +459,12 @@ const ARTIST_WEIGHTS = {
     ]
   },
   
-  // 중세
+  // 중세 - v67: 비잔틴 주력 (60%)
   medieval: {
     default: [
-      { name: 'BYZANTINE', weight: 40 },
-      { name: 'GOTHIC', weight: 35 },
-      { name: 'ISLAMIC MINIATURE', weight: 25 }
+      { name: 'BYZANTINE', weight: 60 },
+      { name: 'GOTHIC', weight: 20 },
+      { name: 'ISLAMIC MINIATURE', weight: 20 }
     ]
   },
   
@@ -828,6 +828,11 @@ function selectArtistByWeight(category, photoAnalysis) {
 // 고대 그리스-로마 (2가지 스타일)
 function getAncientGreekRomanGuidelines() {
   return `
+🚫🚫🚫 CRITICAL RESTRICTION 🚫🚫🚫
+YOU MUST ONLY SELECT FROM THE ARTISTS/STYLES LISTED BELOW!
+DO NOT select artists from other movements (Renaissance, Baroque, Impressionism, etc.)
+ONLY "CLASSICAL SCULPTURE" or "ROMAN MOSAIC" are allowed!
+
 Available Ancient Greek-Roman Styles (2가지):
 
 ⭐ STYLE 1: CLASSICAL SCULPTURE (고대 그리스-로마 조각)
@@ -951,6 +956,11 @@ Default: Check if indoor (sculpture) or outdoor (mosaic)
 // 르네상스 (5명)
 function getRenaissanceGuidelines() {
   return `
+🚫🚫🚫 CRITICAL RESTRICTION 🚫🚫🚫
+YOU MUST ONLY SELECT FROM THE ARTISTS LISTED BELOW!
+DO NOT select artists from other movements (Baroque, Impressionism, Expressionism, etc.)
+ONLY Renaissance artists: LEONARDO, TITIAN, MICHELANGELO, RAPHAEL, BOTTICELLI!
+
 Available Renaissance Artists (5명):
 
 1. LEONARDO DA VINCI (레오나르도 다 빈치) ⭐ STRONGEST for female portraits
@@ -1075,6 +1085,11 @@ Consider the subject carefully and choose the best match.
 // 바로크 (4명)
 function getBaroqueGuidelines() {
   return `
+🚫🚫🚫 CRITICAL RESTRICTION 🚫🚫🚫
+YOU MUST ONLY SELECT FROM THE ARTISTS LISTED BELOW!
+DO NOT select artists from other movements (Renaissance, Impressionism, Expressionism, etc.)
+ONLY Baroque artists: CARAVAGGIO, RUBENS, REMBRANDT, VELÁZQUEZ!
+
 Available Baroque Artists (4명):
 
 1. CARAVAGGIO (카라바조) ⭐⭐⭐ STRONGEST - default choice for single portraits
@@ -1164,6 +1179,11 @@ For more dramatic spotlight effect, consider CARAVAGGIO.
 // 로코코 (2명)
 function getRococoGuidelines() {
   return `
+🚫🚫🚫 CRITICAL RESTRICTION 🚫🚫🚫
+YOU MUST ONLY SELECT FROM THE ARTISTS LISTED BELOW!
+DO NOT select artists from other movements (Baroque, Impressionism, Expressionism, etc.)
+ONLY Rococo artists: BOUCHER, WATTEAU!
+
 Available Rococo Artists (2명):
 
 1. BOUCHER (부셰) ⭐⭐ STRONGEST for Rococo (70%)
@@ -1205,6 +1225,11 @@ Unless clear outdoor garden → Watteau (30%)
 // 중세 미술 (비잔틴·고딕·이슬람) ⭐ v59 로마네스크 삭제
 function getMedievalGuidelines() {
   return `
+🚫🚫🚫 CRITICAL RESTRICTION 🚫🚫🚫
+YOU MUST ONLY SELECT FROM THE STYLES LISTED BELOW!
+DO NOT select artists from other movements (Renaissance, Baroque, Impressionism, etc.)
+ONLY Medieval styles: BYZANTINE, GOTHIC, ISLAMIC MINIATURE, ISLAMIC GEOMETRIC!
+
 Available Medieval Art Styles:
 
 ⚠️ CRITICAL ISLAMIC ART RULES:
@@ -1315,6 +1340,11 @@ function getMedievalHints(photoAnalysis) {
 // 신고전주의 vs 낭만주의 vs 사실주의 (7명) ⭐ v42 통합
 function getNeoclassicismVsRomanticismVsRealismGuidelines() {
   return `
+🚫🚫🚫 CRITICAL RESTRICTION 🚫🚫🚫
+YOU MUST ONLY SELECT FROM THE ARTISTS LISTED BELOW!
+DO NOT select artists from other movements (Baroque, Impressionism, Expressionism, etc.)
+ONLY these 7 artists: DAVID, INGRES, TURNER, GOYA, DELACROIX, MILLET, MANET!
+
 Available Artists (7명) - AI will choose BEST style (Neoclassicism vs Romanticism vs Realism):
 
 ⚖️ NEOCLASSICISM (신고전주의) - Reason and Order:
@@ -1479,6 +1509,11 @@ Ingres offers idealized classical beauty.
 // 인상주의 (4명)
 function getImpressionismGuidelines() {
   return `
+🚫🚫🚫 CRITICAL RESTRICTION 🚫🚫🚫
+YOU MUST ONLY SELECT FROM THE ARTISTS LISTED BELOW!
+DO NOT select artists from other movements (Post-Impressionism, Expressionism, Fauvism, etc.)
+ONLY Impressionism artists: RENOIR, MONET, DEGAS, CAILLEBOTTE!
+
 Available Impressionism Artists (4명):
 
 1. RENOIR (르누아르) ⭐⭐⭐⭐ STRONGEST - Best for portraits (35%)
@@ -1575,6 +1610,11 @@ Warm sunlit people, festive scenes.
 // 후기인상주의 (4명) - v48 간소화
 function getPostImpressionismGuidelines() {
   return `
+🚫🚫🚫 CRITICAL RESTRICTION 🚫🚫🚫
+YOU MUST ONLY SELECT FROM THE ARTISTS LISTED BELOW!
+DO NOT select artists from other movements (Impressionism, Fauvism, Expressionism, etc.)
+ONLY Post-Impressionism artists: VAN GOGH, GAUGUIN, CÉZANNE, SIGNAC!
+
 Available Post-Impressionism Artists (4명):
 
 1. VAN GOGH (반 고흐) - Swirling impasto brushstrokes, intense emotional colors, turbulent energy
@@ -1648,6 +1688,12 @@ function getPostImpressionismHints(photoAnalysis) {
 // 야수파 (3명) ⭐ v42 NEW
 function getFauvismGuidelines() {
   return `
+🚫🚫🚫 CRITICAL RESTRICTION 🚫🚫🚫
+YOU MUST ONLY SELECT FROM THE ARTISTS LISTED BELOW!
+DO NOT select artists from other movements (Expressionism, Post-Impressionism, etc.)
+ONLY Fauvism artists: MATISSE, DERAIN, VLAMINCK!
+⚠️ Expressionism artists (Munch, Kirchner, Kokoschka, Kandinsky) are FORBIDDEN here!
+
 Available Fauvism Artists (3명):
 
 1. MATISSE (마티스) ⭐⭐⭐ STRONG for portraits and interiors (35%)
@@ -1716,6 +1762,12 @@ All three artists equally powerful for Fauvism!
 // 표현주의 (5명)
 function getExpressionismGuidelines() {
   return `
+🚫🚫🚫 CRITICAL RESTRICTION 🚫🚫🚫
+YOU MUST ONLY SELECT FROM THE ARTISTS LISTED BELOW!
+DO NOT select artists from other movements (Fauvism, Post-Impressionism, Impressionism, etc.)
+ONLY Expressionism artists: MUNCH, KOKOSCHKA, KIRCHNER, KANDINSKY!
+⚠️ FORBIDDEN: Derain, Matisse, Vlaminck (they are FAUVISM, NOT Expressionism!)
+
 Available Expressionism Artists (4명):
 
 1. MUNCH (뭉크) ⭐⭐⭐ STRONG for emotional portraits (30%)
@@ -1744,12 +1796,12 @@ Available Expressionism Artists (4명):
    - Signature: "Compositions" - non-representational emotional color
    - When to prioritize: Abstract/spiritual desired (15%)
 
-🎯 CRITICAL DECISION LOGIC - 4 ARTISTS:
+🎯 CRITICAL DECISION LOGIC - 4 ARTISTS ONLY:
 - Emotional portraits → MUNCH (30%, also in Masters)
 - Psychological depth → KOKOSCHKA (30%)
 - Urban/city/angular → KIRCHNER (25%)
 - Abstract/spiritual → KANDINSKY (15%)
-Strong core of 4 Expressionist artists!
+⚠️ NEVER select Fauvism artists (Derain, Matisse, Vlaminck) for Expressionism!
 `;
 }
 
@@ -1809,8 +1861,11 @@ Strong core of 4 Expressionist masters!
 // 제외: 뒤샹(개념미술), 폴록/로스코(완전추상), 만 레이(사진작가), 프리다/달리(마스터 전용), 브라크(피카소 중복)
 function getModernismGuidelines() {
   return `
-⚠️ CRITICAL: You MUST select ONLY from the 7 artists listed below!
-DO NOT select any other artist (like Boccioni, Kandinsky, Mondrian, Man Ray, Dalí, Frida Kahlo, Braque, etc.)
+🚫🚫🚫 CRITICAL RESTRICTION 🚫🚫🚫
+YOU MUST ONLY SELECT FROM THE 7 ARTISTS LISTED BELOW!
+DO NOT select artists from other movements (Expressionism, Fauvism, Impressionism, etc.)
+ONLY these 7 artists: PICASSO, MAGRITTE, MIRÓ, CHAGALL, WARHOL, LICHTENSTEIN, HARING!
+⚠️ FORBIDDEN: Boccioni, Kandinsky, Mondrian, Man Ray, Dalí, Frida Kahlo, Braque, Munch, Matisse, etc.
 
 Available 20th Century Modernism Artists (7명):
 
@@ -2172,7 +2227,7 @@ function getPostImpressionismArtistPrompt(artistName) {
   const prompts = {
     'VAN GOGH': 'CRITICAL: PRESERVE the EXACT FACE IDENTITY from original photo but APPLY thick brushstroke texture to the face - do NOT draw Van Gogh himself. ABSOLUTE GENDER REQUIREMENT: If photo shows MALE - MUST have MASCULINE face with STRONG JAW, male bone structure, NO feminine features, DO NOT feminize, DO NOT soften, KEEP AS MAN. painting in Vincent van Gogh style: EXTREMELY THICK IMPASTO brushstrokes with HEAVY 3D PAINT TEXTURE like squeezed directly from tube, VISIBLE RIDGES AND GROOVES of thick oil paint, SWIRLING TURBULENT brushwork in EVERY area including face and background, CHUNKY BOLD brush marks NOT smooth NOT blended, intense saturated colors (cobalt blue cadmium yellow chrome orange), ENERGETIC EXPRESSIVE strokes throughout, canvas weave visible through paint, NOT photorealistic NOT AI-generated, Van Gogh masterpiece quality',
     
-    'GAUGUIN': 'ABSOLUTE GENDER AND ETHNICITY REQUIREMENT: If photo shows MALE - MUST have MASCULINE face with STRONG JAW, male bone structure, NO feminine features, DO NOT feminize, DO NOT soften, DO NOT make delicate, KEEP AS MAN. If photo shows FEMALE - MUST have FEMININE face with SOFT features, female bone structure, NO masculine features, DO NOT masculinize, DO NOT make rough, KEEP AS WOMAN. PRESERVE ORIGINAL ETHNICITY AND SKIN COLOR EXACTLY - DO NOT change race, DO NOT lighten or darken skin, Asian must stay Asian, Caucasian must stay Caucasian, African must stay African. painting by Paul Gauguin: FLAT BOLD AREAS of pure unmixed saturated color, simplified forms with smooth FLAT COLOR SURFACES, exotic tropical palette (deep orange ochre yellow turquoise rich purple vibrant green), warm golden skin tones, lush tropical background, SMOOTH FLAT oil paint application with visible paint texture, ABSOLUTELY NO mosaic effect, NO tiles, NO geometric grid, NO stained glass look, NO cell pattern, pure FLAT COLOR AREAS only, NOT photorealistic NOT AI-generated, Gauguin Tahitian masterpiece quality',
+    'GAUGUIN': 'ABSOLUTE GENDER AND ETHNICITY REQUIREMENT: If photo shows MALE - MUST have MASCULINE face with STRONG JAW, male bone structure, NO feminine features, DO NOT feminize, DO NOT soften, DO NOT make delicate, KEEP AS MAN. If photo shows FEMALE - MUST have FEMININE face with SOFT features, female bone structure, NO masculine features, DO NOT masculinize, DO NOT make rough, KEEP AS WOMAN. PRESERVE ORIGINAL ETHNICITY AND SKIN COLOR EXACTLY - DO NOT change race, DO NOT lighten or darken skin, Asian must stay Asian, Caucasian must stay Caucasian, African must stay African. painting by Paul Gauguin Tahitian period: CLOISONNISM style with BOLD BLACK OUTLINES separating FLAT COLOR AREAS, pure unmixed saturated colors in simplified shapes, PRIMITIVISM aesthetic with raw primitive power, exotic tropical palette (deep orange, ochre yellow, turquoise, rich purple, vibrant green), warm golden-brown skin tones, lush Tahitian tropical background with palm trees and exotic flowers, Tahitian Women on the Beach style, decorative simplified forms, VISIBLE BRUSHSTROKES with thick oil paint texture, symbolic mysterious atmosphere, ABSOLUTELY NO mosaic effect, NO tiles, NO geometric grid, NO stained glass look, pure FLAT COLOR PLANES with dark contour lines, NOT photorealistic NOT AI-generated, Gauguin Tahitian masterpiece quality',
     
     'CÉZANNE': 'ABSOLUTE GENDER AND ETHNICITY REQUIREMENT: If photo shows MALE - MUST have MASCULINE face with STRONG JAW, male bone structure, NO feminine features, DO NOT feminize, DO NOT soften, DO NOT make delicate, KEEP AS MAN. If photo shows FEMALE - MUST have FEMININE face with SOFT features, female bone structure, NO masculine features, DO NOT masculinize, DO NOT make rough, KEEP AS WOMAN. PRESERVE ORIGINAL ETHNICITY AND SKIN COLOR EXACTLY - DO NOT change race, DO NOT lighten or darken skin, Asian must stay Asian, Caucasian must stay Caucasian, African must stay African. painting by Paul Cézanne: GEOMETRIC STRUCTURED FORMS built with parallel brushstrokes, analytical approach to underlying shapes, Mont Sainte-Victoire style constructive vision, muted earth tones with blues and greens, solid volumes emerging from color planes, VISIBLE DIRECTIONAL BRUSHWORK with paint texture, contemplative balanced compositions, NOT photorealistic NOT AI-generated, Cézanne masterpiece quality',
     
@@ -3888,13 +3943,13 @@ export default async function handler(req, res) {
           }
         }
         
-        // 고갱 선택시 평면적 원시주의 강화
+        // 고갱 선택시 클루아조니즘 + 원시주의 강화 (v67)
         if (selectedArtist.toUpperCase().trim().includes('GAUGUIN')) {
           console.log('🎯 Gauguin detected');
           if (!finalPrompt.includes('Gauguin')) {
-            finalPrompt = finalPrompt + ', painting by Paul Gauguin Tahitian period: FLAT BOLD AREAS of pure unmixed saturated color WITHOUT shading or modeling, simplified forms with smooth flat surfaces, exotic tropical palette (deep orange, ochre yellow, turquoise, rich purple, vibrant green), Tahitian Women style with decorative simplified figures, warm golden skin tones, lush tropical background, Post-Impressionist flat color planes, VISIBLE BRUSHSTROKES with oil paint texture, NOT mosaic NOT stained glass NOT geometric tiles, PRESERVE original subject face identity age and ethnicity, Gauguin masterpiece quality';
+            finalPrompt = finalPrompt + ', painting by Paul Gauguin Tahitian period: CLOISONNISM style with BOLD BLACK OUTLINES separating FLAT COLOR AREAS, PRIMITIVISM raw primitive power, pure unmixed saturated colors in simplified shapes, exotic tropical palette (deep orange, ochre yellow, turquoise, rich purple, vibrant green), warm golden-brown skin tones, Tahitian Women on the Beach style, lush tropical background with palm trees, decorative simplified forms, VISIBLE THICK BRUSHSTROKES with oil paint texture, symbolic mysterious atmosphere, NOT mosaic NOT stained glass NOT geometric tiles, PRESERVE original subject face identity age and ethnicity, Gauguin Tahitian masterpiece quality';
             controlStrength = 0.60;
-            console.log('✅ Enhanced Gauguin flat colors + identity preserve (control_strength 0.60)');
+            console.log('✅ Enhanced Gauguin cloisonnism + primitivism (control_strength 0.60)');
           } else {
             console.log('ℹ️ Gauguin style already in prompt (AI included it)');
           }
