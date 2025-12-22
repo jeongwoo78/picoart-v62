@@ -31,8 +31,7 @@ export const CORE_RULES = {
   // 1-3: 매력적 표현 예외 작품들
   attractiveExceptions: [
     'munch-scream',           // 절규 - 공포/불안
-    'picasso-guernica',       // 게르니카 - 전쟁 참상
-    'frida-brokencolumn'      // 부러진 기둥 - 고통
+    'munch-anxiety'           // 불안 - 집단 불안
   ],
   
   // 1-6: 텍스트 규칙
@@ -483,6 +482,13 @@ export const masterworkEnhancements = {
     controlStrength: 0.55
   },
   
+  'vangogh-cafe': {
+    name: '밤의 카페 테라스',
+    artist: 'vangogh',
+    prompt: ', Cafe Terrace at Night by Vincent van Gogh, Van Gogh Post-Impressionist art style: STARRY COBALT BLUE NIGHT SKY, WARM YELLOW cafe terrace light spilling onto cobblestone street, thick impasto brushstrokes, contrast of warm yellows and cool blues, visible directional brushwork, romantic evening atmosphere',
+    controlStrength: 0.55
+  },
+  
   // ========================================
   // 2. 클림트 (Klimt) - 3개 대표작
   // ========================================
@@ -537,6 +543,14 @@ export const masterworkEnhancements = {
     controlStrength: 0.55
   },
   
+  'munch-anxiety': {
+    name: '불안',
+    artist: 'munch',
+    prompt: ', Anxiety by Edvard Munch, Munch Expressionist art style: GROUP OF FIGURES with pale anxious faces staring forward, wavy undulating lines in sky and landscape, BLOOD RED sunset sky like The Scream, crowd walking on path/bridge, collective existential dread, Expressionist thick brushwork, NO smiling',
+    controlStrength: 0.55,
+    expressionRule: 'anxiety/worry allowed, NO bright, NO smiling'
+  },
+  
   // ========================================
   // 4. 마티스 (Matisse) - 3개 대표작
   // ========================================
@@ -548,128 +562,25 @@ export const masterworkEnhancements = {
     controlStrength: 0.55
   },
   
-  'matisse-redroom': {
+  'matisse-red-room': {
     name: '붉은 방',
     artist: 'matisse',
     prompt: ', The Red Room by Henri Matisse, Matisse Fauvist art style: RED DOMINATES 80% of scene, blue arabesque vine patterns on red, flattened space where wall and table merge, window showing green landscape, ROUGH VISIBLE FAUVIST BRUSHSTROKES mandatory, non-realistic skin colors OK, NOT smooth NOT digital',
     controlStrength: 0.55
   },
   
-  'matisse-womanhat': {
-    name: '모자를 쓴 여인',
+  'matisse-greenstripe': {
+    name: '초록 줄무늬',
     artist: 'matisse',
-    prompt: ', Woman with a Hat by Henri Matisse, Matisse Fauvist art style: MULTIPLE BOLD COLORS on face (green/purple/red/yellow coexisting), ROUGH VISIBLE FAUVIST BRUSHSTROKES with brush direction visible, colors overlap but strokes remain distinct, confident frontal gaze, radical Fauvist color liberation, rough impasto paint texture on skin, NOT smooth NOT digital NOT airbrushed',
+    prompt: ', The Green Stripe (Portrait of Madame Matisse) by Henri Matisse, Matisse Fauvist art style: CRITICAL - GREEN STRIPE down CENTER of face dividing it in half, LEFT side of face YELLOW-PINK tones, RIGHT side of face GREEN-PURPLE tones, RADICAL FAUVIST COLOR directly on skin NOT realistic skin tone, BOLD DARK OUTLINES separating color areas, completely FLAT NO shadows NO shading, ROUGH VISIBLE BRUSHSTROKES with brush direction showing, pure unmixed CLASHING colors, NOT smooth NOT digital',
     controlStrength: 0.55
   },
   
-  // ========================================
-  // 5. 피카소 (Picasso) - 3개 대표작
-  // ========================================
-  
-  'picasso-demoiselles': {
-    name: '아비뇽의 처녀들',
-    artist: 'picasso',
-    prompt: ', Les Demoiselles dAvignon by Pablo Picasso, Picasso Cubism art style: CRITICAL CUBIST FACE - face MUST be geometrically FRAGMENTED into angular planes showing MULTIPLE ANGLES simultaneously (one eye frontal + one eye profile, nose from side), African mask influence with sharp angular features, bold BLACK OUTLINES dividing face into geometric sections, apricot/brown/earth tones, primitive revolutionary energy, rough visible oil brushwork, NOT realistic face, NOT smooth skin',
-    controlStrength: 0.50
-  },
-  
-  'picasso-guernica': {
-    name: '게르니카',
-    artist: 'picasso',
-    prompt: ', Guernica by Pablo Picasso, Picasso Cubism art style: BLACK WHITE AND GREY ONLY no other colors, CRITICAL CUBIST FACE - face fragmented into angular geometric planes, screaming open mouths distorted, eyes displaced showing multiple angles, torn jagged forms, war horror and chaos, bold black outlines dividing face sections, rough visible oil brushwork, expression of PAIN and TERROR allowed (attractive rendering exception), NOT realistic face',
-    controlStrength: 0.50,
-    attractiveException: true
-  },
-  
-  // ========================================
-  // 6. 프리다 칼로 (Frida Kahlo) - 4개 대표작
-  // ========================================
-  
-  'frida-parrots': {
-    name: '나와 앵무새들',
-    artist: 'frida',
-    prompt: ', Me and My Parrots by Frida Kahlo, Frida Kahlo art style: colorful PARROTS perched on shoulders, lush GREEN LEAVES tropical background, frontal direct gaze with intense eyes, Mexican flower hair decorations, detailed visible oil brushwork, warm intimate companion atmosphere, dignified confident expression',
+  'matisse-purplecoat': {
+    name: '보라 코트를 입은 여인',
+    artist: 'matisse',
+    prompt: ', Woman in a Purple Coat by Henri Matisse, Matisse decorative style: elegant woman in RICH PURPLE COAT, BOLD BLACK OUTLINES around figure and objects making them pop, decorative patterned background with ornamental motifs, mature Matisse style with strong contour lines, flat color planes, luxurious regal atmosphere, NOT smooth NOT digital',
     controlStrength: 0.55
-  },
-  
-  'frida-brokencolumn': {
-    name: '부러진 기둥',
-    artist: 'frida',
-    prompt: ', The Broken Column by Frida Kahlo, Frida Kahlo art style: torso SPLIT OPEN revealing crumbling Ionic column as spine, NAILS piercing skin all over body, tears streaming down face, barren landscape background, medical corset straps, detailed visible oil brushwork, expression of PAIN allowed (attractive rendering exception), stoic dignity despite suffering',
-    controlStrength: 0.55,
-    attractiveException: true
-  },
-  
-  'frida-thornnecklace': {
-    name: '가시 목걸이와 벌새',
-    artist: 'frida',
-    prompt: ', Self-Portrait with Thorn Necklace and Hummingbird by Frida Kahlo, Frida Kahlo art style: THORN NECKLACE piercing neck with blood drops, dead HUMMINGBIRD pendant, black monkey and cat behind shoulders, GREEN JUNGLE LEAVES background, frontal gaze with intense eyes, Mexican flower hair decorations, detailed visible oil brushwork, dignified stoic suffering',
-    controlStrength: 0.55
-  },
-  
-  'frida-monkeys': {
-    name: '원숭이와 자화상',
-    artist: 'frida',
-    prompt: ', Self-Portrait with Monkeys by Frida Kahlo, Frida Kahlo art style: MONKEYS embracing from behind, lush GREEN TROPICAL LEAVES filling background, frontal direct gaze with intense dark eyes, Mexican flower decorations in hair, warm intimate companion bond, detailed visible oil brushwork, tender protective atmosphere',
-    controlStrength: 0.55
-  },
-  
-  // ========================================
-  // 7. 워홀 (Warhol) - 2개 대표작
-  // ========================================
-  
-  'warhol-marilyn': {
-    name: '마릴린 먼로',
-    artist: 'warhol',
-    prompt: ', Warhol pop art portrait style: Transform THE PERSON IN PHOTO into 2x2 FOUR-PANEL GRID with SAME PERSON repeated 4 times, DIFFERENT BOLD NEON COLOR each panel (hot pink/cyan/yellow/orange/turquoise/lime), high contrast silkscreen print effect with ink bleed imperfections and halftone, flat graphic high-contrast, glamorous iconic expression, background must be SOLID COLORS only, NO celebrity faces anywhere, NO Marilyn Monroe face, apply pop art style to SUBJECT ONLY',
-    controlStrength: 0.50,
-    specialRule: '4-panel mandatory, NO Marilyn Monroe anywhere'
-  },
-  
-  'warhol-soup': {
-    name: '캠벨 수프 캔',
-    artist: 'warhol',
-    prompt: ', Campbells Soup Cans style by Andy Warhol, Warhol pop art style: commercial product art aesthetic, clean graphic outlines, flat color areas, red/white/gold can label colors, supermarket display repetition, pop art commercial design, silkscreen print flatness, bold colors mass culture theme, for portrait photos recommend switching to Marilyn style',
-    controlStrength: 0.50
-  },
-  
-  'warhol-elvis': {
-    name: '엘비스',
-    artist: 'warhol',
-    prompt: ', Warhol silver silkscreen portrait style: Transform THE PERSON IN PHOTO, SILVER METALLIC BACKGROUND mandatory, single figure or repeated 2-3 times slightly offset, silkscreen print effect with INK DENSITY VARIATIONS, high contrast black on silver, cowboy stance energy optional, mechanical reproduction aesthetic, ink bleed imperfections, NO 4-panel grid, NO colorful pop art, NO Marilyn Monroe style, NO celebrity faces in background, SILVER BACKGROUND ONLY',
-    controlStrength: 0.50
-  },
-
-  // ========================================
-  // 8. 바스키아 (Basquiat) - 4개 대표작
-  // ========================================
-  
-  'basquiat-skull': {
-    name: '무제',
-    artist: 'basquiat',
-    prompt: ', Untitled Skull by Jean-Michel Basquiat, Basquiat neo-expressionist art style: SKULL-LIKE FACE with exposed anatomy, RAW AGGRESSIVE BRUSHSTROKES (30mm or thicker), PRIMARY COLORS (red/yellow/black/blue) in bold contrast, GRAFFITI SCRAWLED TEXT and symbols scattered around, thick oil stick and acrylic texture, urban street art energy, THREE-POINTED CROWN motif, chaotic layered composition, visible paint drips and scratches, intense staring eyes, NOT clean NOT polished',
-    controlStrength: 0.50
-  },
-
-  'basquiat-warrior': {
-    name: '전사',
-    artist: 'basquiat',
-    prompt: ', Warrior by Jean-Michel Basquiat, Basquiat neo-expressionist art style: HEROIC BLACK FIGURE standing tall, BOLD ANATOMICAL LINES revealing skeletal structure, YELLOW AND BLUE contrasting background blocks, THREE-POINTED CROWN on head, RAW AGGRESSIVE BRUSHSTROKES (30mm or thicker), oil stick and acrylic on wood panel texture, graffiti elements and scrawled text, powerful warrior stance, visible paint drips, street art meets fine art energy',
-    controlStrength: 0.50
-  },
-
-  'basquiat-boy': {
-    name: '소년과 개',
-    artist: 'basquiat',
-    prompt: ', Boy and Dog in a Johnnypump by Jean-Michel Basquiat, Basquiat neo-expressionist art style: SKELETAL FIGURE with exposed bones and anatomy, DOG COMPANION in similar raw style, HOT SUMMER COLORS (red/orange/yellow/green), fire hydrant water spray energy, CHAOTIC ENERGETIC BRUSHSTROKES (30mm or thicker), Brooklyn street life atmosphere, thick acrylic and oil stick texture, graffiti scrawls and symbols, childlike yet powerful, visible drips and scratches',
-    controlStrength: 0.50
-  },
-
-  'basquiat-hollywood': {
-    name: '할리우드 아프리칸스',
-    artist: 'basquiat',
-    prompt: ', Hollywood Africans by Jean-Michel Basquiat, Basquiat neo-expressionist art style: MULTIPLE FIGURES in loose sketchy style, BRIGHT YELLOW BACKGROUND dominating, CROSSED-OUT TEXT and scrawled words throughout, social commentary imagery, THREE PORTRAIT HEADS with graffiti elements, thick oil stick lines, street art meets conceptual art, chaotic layered composition with symbols, raw urban energy, visible paint texture and drips',
-    controlStrength: 0.50
   }
 };
 
