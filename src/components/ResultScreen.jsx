@@ -768,113 +768,63 @@ const ResultScreen = ({
     
     // ========== 거장: <화가명> 작품명 ==========
     if (category === 'masters') {
-      const mastersMap = {
-        'van gogh': '반 고흐',
-        'vangogh': '반 고흐',
-        'vincent van gogh': '반 고흐',
-        '반 고흐': '반 고흐',
-        'klimt': '클림트',
-        'gustav klimt': '클림트',
-        '클림트': '클림트',
-        'munch': '뭉크',
-        'edvard munch': '뭉크',
-        '뭉크': '뭉크',
-        'matisse': '마티스',
-        'henri matisse': '마티스',
-        '마티스': '마티스',
-        'picasso': '피카소',
-        'pablo picasso': '피카소',
-        '피카소': '피카소',
-        'frida': '프리다',
-        'frida kahlo': '프리다',
-        '프리다': '프리다',
-        '프리다 칼로': '프리다',
-        'basquiat': '바스키아',
-        'jean-michel basquiat': '바스키아',
-        '바스키아': '바스키아',
-        '장 미셸 바스키아': '바스키아',
+      // 거장 정보: 이름, 생몰연도, 사조
+      const mastersInfo = {
+        'van gogh': { name: '반 고흐', years: '1853~1890', movement: '후기인상주의' },
+        'vangogh': { name: '반 고흐', years: '1853~1890', movement: '후기인상주의' },
+        'vincent van gogh': { name: '반 고흐', years: '1853~1890', movement: '후기인상주의' },
+        '반 고흐': { name: '반 고흐', years: '1853~1890', movement: '후기인상주의' },
+        'klimt': { name: '클림트', years: '1862~1918', movement: '아르누보' },
+        'gustav klimt': { name: '클림트', years: '1862~1918', movement: '아르누보' },
+        '클림트': { name: '클림트', years: '1862~1918', movement: '아르누보' },
+        'munch': { name: '뭉크', years: '1863~1944', movement: '표현주의' },
+        'edvard munch': { name: '뭉크', years: '1863~1944', movement: '표현주의' },
+        '뭉크': { name: '뭉크', years: '1863~1944', movement: '표현주의' },
+        'matisse': { name: '마티스', years: '1869~1954', movement: '야수파' },
+        'henri matisse': { name: '마티스', years: '1869~1954', movement: '야수파' },
+        '마티스': { name: '마티스', years: '1869~1954', movement: '야수파' },
+        'picasso': { name: '피카소', years: '1881~1973', movement: '입체주의' },
+        'pablo picasso': { name: '피카소', years: '1881~1973', movement: '입체주의' },
+        '피카소': { name: '피카소', years: '1881~1973', movement: '입체주의' },
+        'frida': { name: '프리다', years: '1907~1954', movement: '초현실주의' },
+        'frida kahlo': { name: '프리다', years: '1907~1954', movement: '초현실주의' },
+        '프리다': { name: '프리다', years: '1907~1954', movement: '초현실주의' },
+        '프리다 칼로': { name: '프리다', years: '1907~1954', movement: '초현실주의' },
+        'basquiat': { name: '바스키아', years: '1960~1988', movement: '네오표현주의' },
+        'jean-michel basquiat': { name: '바스키아', years: '1960~1988', movement: '네오표현주의' },
+        '바스키아': { name: '바스키아', years: '1960~1988', movement: '네오표현주의' },
+        '장 미셸 바스키아': { name: '바스키아', years: '1960~1988', movement: '네오표현주의' },
       };
       
-      const artistShort = mastersMap[normalized] || mastersMap[artistName] || artistName;
-      
-      // 작품명 한글화 (API 반환값 기준)
-      const workMap = {
-        // 클림트
-        'the kiss': '키스',
-        'kiss': '키스',
-        'judith': '유디트',
-        'judith i': '유디트',
-        'portrait of adele': '아델레 초상',
-        'portrait of adele bloch-bauer i': '아델레 초상',
-        'the tree of life': '생명의 나무',
-        'tree of life': '생명의 나무',
-        'death and life': '죽음과 삶',
-        'danae': '다나에',
-        // 뭉크
-        'the scream': '절규',
-        'scream': '절규',
-        'the sick child': '아픈 아이',
-        'vampire': '뱀파이어',
-        'anxiety': '불안',
-        'melancholy': '우울',
-        'madonna': '마돈나',
-        'jealousy': '질투',
-        // 반 고흐
-        'starry night': '별이 빛나는 밤',
-        'the starry night': '별이 빛나는 밤',
-        'self-portrait': '자화상',
-        'self portrait': '자화상',
-        'sunflowers': '해바라기',
-        'the bedroom': '침실',
-        'cafe terrace at night': '밤의 카페 테라스',
-        // 마티스
-        'woman with a hat': '모자를 쓴 여인',
-        'the dance': '춤',
-        'dance': '춤',
-        'the red room': '붉은 방',
-        'red room': '붉은 방',
-        'blue nude': '푸른 누드',
-        'the joy of life': '삶의 기쁨',
-        // 피카소
-        'les demoiselles d\'avignon': '아비뇽의 처녀들',
-        'guernica': '게르니카',
-        'girl before a mirror': '거울 앞의 소녀',
-        // 바스키아
-        'untitled': '무제',
-        'untitled (skull)': '무제',
-        'skull': '무제',
-        'warrior': '전사',
-        'boy and dog in a johnnypump': '소년과 개',
-        'boy and dog': '소년과 개',
-        'hollywood africans': '할리우드 아프리칸스',
-        'hollywood': '할리우드 아프리칸스',
-        // 프리다
-        'me and my parrots': '나와 앵무새',
-        'self-portrait with monkeys': '원숭이와 자화상',
-        'the broken column': '부러진 기둥',
-        'self-portrait with thorn necklace': '가시 목걸이 자화상',
-      };
-      
-      let workShort = '대표작';
-      if (workName) {
-        // 괄호 포함된 경우 영문만 추출: "Woman with a Hat (모자를 쓴 여인)" → "Woman with a Hat"
-        let workToCheck = workName;
-        if (workName.includes('(')) {
-          workToCheck = workName.split('(')[0].trim();
-        }
-        const workNorm = workToCheck.toLowerCase().trim();
-        workShort = workMap[workNorm] || workToCheck;
+      const info = mastersInfo[normalized] || mastersInfo[artistName];
+      if (info) {
+        return `${info.name}(${info.years})_${info.movement}`;
       }
       
-      // 연도 추가
-      const year = getWorkYear(workName) || getWorkYear(workShort);
-      const yearSuffix = year ? `, ${year}` : '';
-      
-      return `<${artistShort}> ${workShort}${yearSuffix}`;
+      return artistName;
     }
     
-    // ========== 미술사조: <미술사조명> 화가명 ==========
+    // ========== 미술사조: 사조(시기)_화가 ==========
     if (category === 'movements') {
+      // 사조별 시기 정보
+      const movementPeriods = {
+        '고대': 'BC~AD4C',
+        '중세': '5~15C',
+        '르네상스': '14~16C',
+        '바로크': '17~18C',
+        '로코코': '18C',
+        '신고전주의': '18~19C',
+        '낭만주의': '19C',
+        '사실주의': '19C',
+        '인상주의': '1860~1890',
+        '후기인상주의': '1880~1910',
+        '야수파': '1904~1908',
+        '표현주의': '1905~1925',
+        '입체주의': '1907~1920',
+        '모더니즘': '20C',
+        '팝아트': '1950~1970',
+      };
+      
       // 화가 → 미술사조 매핑
       const movementMap = {
         // 고대
@@ -940,6 +890,7 @@ const ResultScreen = ({
         'kirchner': { movement: '표현주의', artist: '키르히너' },
         'kandinsky': { movement: '표현주의', artist: '칸딘스키' },
         'kokoschka': { movement: '표현주의', artist: '코코슈카' },
+        'schiele': { movement: '표현주의', artist: '쉴레' },
         // 입체주의/모더니즘
         'picasso': { movement: '입체주의', artist: '피카소' },
         'braque': { movement: '입체주의', artist: '브라크' },
@@ -957,13 +908,15 @@ const ResultScreen = ({
       
       const info = movementMap[normalized] || movementMap[artistName];
       if (info) {
-        return `<${info.movement}> ${info.artist}`;
+        const period = movementPeriods[info.movement] || '';
+        return `${info.movement}(${period})_${info.artist}`;
       }
       
       // 부분 매칭
       for (const [key, value] of Object.entries(movementMap)) {
         if (normalized.includes(key) || key.includes(normalized)) {
-          return `<${value.movement}> ${value.artist}`;
+          const period = movementPeriods[value.movement] || '';
+          return `${value.movement}(${period})_${value.artist}`;
         }
       }
       
